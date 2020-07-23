@@ -6,17 +6,31 @@ $("#currentDay").append(moment().format("dddd, MMMM Do, YYYY - h:mm a"));
 
 // Store text to local storage
 function storedText() {
+    $(".saveBtn").on("click", function() {
+        
+        var data = $(this).siblings(".description").val();
+        var time = $(this).parent().attr("id");
     
+        // save in localStorage
+        localStorage.setItem(time, data);
+      });
+
+        // Get localStorage
+        for (var i =1; i < 10; i++){
+
+        $("#hour"+ i +" .description").val(localStorage.getItem("hour"+ i));
+        
+      }
 }
 
 // Set text area color
 var textColor = function() {
     // Compare current time to the time of the row 
     for (i = 1; i < 10; i++){
-        var rowHour = $("#row" + i).find("h6").html();
+        var rowHour = $("#hour" + i).find("h6").html();
         var hour = moment(rowHour, "HHA").format("HH");
         var now = moment().format("HH");
-        var areaColor = $("#row" + i).find("textarea");
+        var areaColor = $("#hour" + i).find("textarea");
 
     // Conditional statements to color the rows
     if (now === hour) {
@@ -29,9 +43,6 @@ var textColor = function() {
         areaColor.removeClass("past present");
         areaColor.addClass("future");
     }
-    else {
-        $("#container").html(<div>"Nice weather we're having, huh?"</div>);    
-    } 
 }
 };
 
